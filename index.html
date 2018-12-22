@@ -16,85 +16,45 @@
         This chart shows how specific currencies have been changing in Ukraine since 1999
     </div>
     <div id="viz"></div>
-    <div>
-        <label for="years">Choose year</label>
-        <select id="years" onchange="onYearChange()">
-            <option value="1999">1999</option>
-            <option value="2000">2000</option>
-            <option value="2001">2001</option>
-            <option value="2002">2002</option>
-            <option value="2003">2003</option>
-            <option value="2004">2004</option>
-            <option value="2005">2005</option>
-            <option value="2006">2006</option>
-            <option value="2007">2007</option>
-            <option value="2008">2008</option>
-            <option value="2009">2009</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-        </select>
-    </div>
 </div>
 
 </body>
 
 <script>
-    window.addEventListener('load', () => draw(1999));
-
-    const onYearChange = () => {
-        const e = document.getElementById ("years");
-        const year = e.options[e.selectedIndex].value;
-        draw(year);
-    };
-
-    const draw = year => {
-        var chart = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
-            "height": 300,
-            "width": 450,
-            "data": {
-                "url": "search_results1.csv"
+    var chart = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
+        "height": 300,
+        "width": 450,
+        "data": {
+            "url": "search_results.csv"
+        },
+        "mark": "line",
+        "encoding": {
+            "x": {
+                "field": "date",
+                "type": "temporal",
+                "timeUnit": "year",
+                "title": null
             },
-            "transform": [
-                {
-                    "filter": `year(datum.date) === ${year}`
-                }
-            ],
-            "mark": "line",
-            "encoding": {
-                "x": {
-                    "field": "date",
-                    "type": "temporal",
-                    "timeUnit": "month",
-                    "title": null
-                },
-                "y": {
-                    "aggregate": "mean",
-                    "field": "rate",
-                    "type": "quantitative",
-                    "title": "Mean currencies' rates",
-                    "nice": true
-                },
-                "color": {
-                    "field": "currency",
-                    "type": "nominal",
-                    "sort": ["EUR", "USD", "CAD", "AUD", "PLN"]
-                }
+            "y": {
+                "aggregate": "mean",
+                "field": "rate",
+                "type": "quantitative",
+                "title": "Mean currencies' rates",
+                "nice": true
+            },
+            "color": {
+                "field": "currency",
+                "type": "nominal",
+                "sort": ["EUR", "USD", "CAD", "AUD", "PLN"]
             }
-        };
-
-        var opts = {
-            "actions": false
-        };
-
-        vegaEmbed('#viz', chart, opts);
+        }
     };
+
+    var opts = {
+        "actions": false
+    };
+
+    vegaEmbed('#viz', chart, opts);
 </script>
 </html>
